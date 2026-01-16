@@ -104,4 +104,5 @@ if submit_button:
 
 # Rodapé
 st.write("---")
+
 st.caption("© 2024 J.E Treinamentos e Consultoria - Ponta Grossa e Região")
