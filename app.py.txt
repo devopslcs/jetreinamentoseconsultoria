@@ -1,0 +1,107 @@
+import streamlit as st
+from PIL import Image
+import urllib.parse
+
+# Configuração da página
+st.set_page_config(page_title="J.E Treinamentos e Consultoria", page_icon="🚑", layout="centered")
+
+# --- ESTILIZAÇÃO CUSTOMIZADA ---
+st.markdown("""
+    <style>
+    .main {
+        background-color: #f5f5f5;
+    }
+    .stButton>button {
+        width: 100%;
+        background-color: #d32f2f;
+        color: white;
+        font-weight: bold;
+    }
+    .course-card {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        border-left: 5px solid #2e7d32;
+        margin-bottom: 20px;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+# --- CABEÇALHO E LOGO ---
+try:
+    logo = Image.open("logo.png")
+    st.image(logo, width=200)
+except:
+    st.error("Erro: Salve o arquivo do logo como 'logo.png' na mesma pasta do código.")
+
+st.title("J.E Treinamentos e Consultoria")
+st.subheader("Especialistas em Atendimento Pré-Hospitalar e Salvamento")
+st.write("---")
+
+# --- SEÇÃO DE CURSOS ---
+st.header("🎯 Nossos Cursos")
+
+# Curso 1
+with st.container():
+    st.markdown('<div class="course-card">', unsafe_allow_html=True)
+    st.subheader("🚑 Primeiros Socorros")
+    st.write("Treinamento essencial para agir com segurança em situações de emergência do dia a dia.")
+    st.markdown('</div>', unsafe_allow_html=True)
+
+# Curso 2
+with st.container():
+    st.markdown('<div class="course-card">', unsafe_allow_html=True)
+    st.subheader("👨‍🚒 Formação de Socorrista Resgatista")
+    st.write("Capacitação profissional completa para atuação em resgates e suporte avançado.")
+    st.markdown('</div>', unsafe_allow_html=True)
+
+# Curso 3
+with st.container():
+    st.markdown('<div class="course-card">', unsafe_allow_html=True)
+    st.subheader("🫀 Basic Life Support (BLS)")
+    st.write("**Suporte Básico de Vida:** Abordagem prática sobre parada respiratória, parada cardiorrespiratória e engasgo.")
+    st.markdown('</div>', unsafe_allow_html=True)
+
+# Curso 4
+with st.container():
+    st.markdown('<div class="course-card">', unsafe_allow_html=True)
+    st.subheader("🩸 Stop The Bleed")
+    st.write("**Controle de Hemorragia:** Técnicas críticas para estancamento de sangramentos graves e uso de torniquetes.")
+    st.markdown('</div>', unsafe_allow_html=True)
+
+st.write("---")
+
+# --- FORMULÁRIO DE CADASTRO ---
+st.header("📝 Pré-Inscrição")
+st.write("Preencha os dados abaixo e entraremos em contato via WhatsApp para finalizar sua matrícula.")
+
+with st.form("cadastro_form"):
+    nome = st.text_input("Nome Completo")
+    email = st.text_input("E-mail")
+    telefone = st.text_input("WhatsApp (com DDD)")
+    curso_selecionado = st.selectbox("Escolha o Curso", [
+        "Primeiros Socorros", 
+        "Formação de Socorrista Resgatista", 
+        "Basic Life Support (BLS)", 
+        "Stop The Bleed"
+    ])
+    mensagem = st.text_area("Alguma dúvida ou observação?")
+    
+    submit_button = st.form_submit_button("Enviar e Chamar no WhatsApp")
+
+if submit_button:
+    if nome and telefone:
+        # Criar a mensagem para o WhatsApp
+        texto_whats = f"Olá! Meu nome é {nome}. Tenho interesse no curso de {curso_selecionado}. Cadastrei meu contato no site."
+        texto_codificado = urllib.parse.quote(texto_whats)
+        link_whatsapp = f"https://wa.me/5542991032200?text={texto_codificado}"
+        
+        st.success(f"Obrigado, {nome}! Clique no botão abaixo para falar com o instrutor.")
+        st.link_button("Ir para o WhatsApp agora", link_whatsapp)
+    else:
+        st.warning("Por favor, preencha pelo menos o nome e o telefone.")
+
+# Rodapé
+st.write("---")
+st.caption("© 2024 J.E Treinamentos e Consultoria - Ponta Grossa e Região")
